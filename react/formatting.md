@@ -37,15 +37,7 @@ yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
 ```json
 {
   "printWidth": 120,
-  "tabWidth": 2,
-  "useTabs": false,
-  "semi": true,
-  "singleQuote": false,
-  "quoteProps": "as-needed",
-  "jsxSingleQuote": false,
   "trailingComma": "es5",
-  "bracketSpacing": true,
-  "jsxBracketSameLine": false,
   "arrowParens": "always"
 }
 ```
