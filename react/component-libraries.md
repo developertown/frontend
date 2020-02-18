@@ -9,10 +9,10 @@ Storybook is a great tool for building a new or extending an existing component 
 ### Install dev dependencies
 
 ```
-yarn add -D @storybook/react @storybook/addon-options @storybook/addon-notes @storybook/addon-knobs @storybook/addon-viewport
+yarn add -D @storybook/react @storybook/preset-create-react-app @storybook/addon-options @storybook/addon-notes @storybook/addon-knobs @storybook/addon-viewport
 ```
 
-### Create .storybook/config
+### Create .storybook/preview.ts
 
 ```ts
 import { addDecorator, addParameters, configure } from "@storybook/react";
@@ -36,23 +36,22 @@ addParameters({
   },
 });
 addDecorator(withKnobs);
-
-const req = require.context("../src/__stories__", true, /.*\.(stories|story)\.(js|jsx|ts|tsx)?$/);
-
-const loadStories = () => {
-  req.keys().forEach(filename => req(filename));
-};
-
-configure(loadStories, module);
 ```
 
-### Configure Addons .storybook/addons
+### Configure Addons .storybook/main.js
 
-```ts
-import "@storybook/addon-notes/register";
-import "@storybook/addon-knobs/register";
-import "@storybook/addon-viewport/register";
-import "@storybook/addon-options/register";
+```js
+module.exports = {
+  stories: ["../src/**/*.(stories|story).(js|jsx|ts|tsx)"],
+  addons: [
+    "@storybook/preset-create-react-app",
+    "@storybook/addon-notes",
+    "@storybook/addon-knobs",
+    "@storybook/addon-viewport",
+    "@storybook/addon-options",
+  ],
+};
+
 ```
 
 ### Add npm scripts
@@ -127,7 +126,7 @@ const MyThemedComponent: React.FC = () => {
 yarn add -D storybook-addon-material-ui
 ```
 
-### Configure .storybook/config
+### Configure .storybook/preview.ts
 
 ```ts
 import { addDecorator } from "@storybook/react";
@@ -137,8 +136,13 @@ import theme from "../src/styles/theme";
 addDecorator(muiTheme([theme]));
 ```
 
-### Configure Addons .storybook/addons
+### Configure Addons .storybook/main.js
 
-```ts
-import "storybook-addon-material-ui/register";
+```js
+module.exports = {
+  addons: [
+    //...other addons
+    "storybook-addon-material-ui",
+  ],
+};
 ```
