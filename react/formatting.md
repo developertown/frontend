@@ -37,8 +37,8 @@ yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
 ```json
 {
   "printWidth": 120,
-  "trailingComma": "es5",
-  "arrowParens": "always"
+  "trailingComma": "all",
+  "arrowParens": "always",
 }
 ```
 
