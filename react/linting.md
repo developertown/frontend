@@ -28,6 +28,18 @@ yarn add -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser es
 }
 ```
 
+### Editor Integration (VSCode)
+
+https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+
+```json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
 ## Configuring Linter (SCSS/CSS)
 
 At DeveloperTown we **should** leverage stylelint for static code analysis if we are writing CSS or SCSS to style applications
