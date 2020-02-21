@@ -6,8 +6,6 @@ DeveloperTown projects **should** utilize code formatters to ensure consistent s
 
 ## Configuring your Editor (editorconfig)
 
-Most modern editors can be configured programatically through some common configuration files and tools. These configuration files **should** live in the source repository along side the application code so that all contributors of the code base will have the same settings.
-
 ### Create .editorconfig to provide editor configuration
 
 ```
