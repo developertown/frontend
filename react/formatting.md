@@ -20,6 +20,10 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 ```
 
+### Editor Integration (VSCode)
+
+https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
+
 ## Configuring your Editor (prettier)
 
 ### Install dev dependencies
@@ -55,5 +59,16 @@ yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
 ```json
 {
   "extends": ["plugin:prettier/recommended", "prettier/@typescript-eslint"]
+}
+```
+
+### Editor Integration (VSCode)
+
+https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
+
+```json
+{
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
 }
 ```
