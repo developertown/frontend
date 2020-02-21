@@ -68,6 +68,7 @@ https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
 
 ```json
 {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
 }
