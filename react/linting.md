@@ -27,6 +27,25 @@ yarn add -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser es
   }
 }
 ```
+make sure that the Prettier configs are **last** in the extends array so it gets the chance to override other configs, so combined from formatting section: 
+
+```json
+{
+  "extends": [
+  "react-app",
+  "plugin:@typescript-eslint/recommended", 
+  "plugin:prettier/recommended",
+  "prettier/@typescript-eslint"
+   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "react-hooks"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}
+```
+
 
 ### Editor Integration (VSCode)
 
