@@ -46,6 +46,14 @@ make sure that the Prettier configs are **last** in the extends array so it gets
 }
 ```
 
+### Add npm scripts
+
+```
+"scripts": {
+  "lint": "eslint src --ext .ts,.tsx",
+  "lint:fix": "npm run lint -- --fix"
+}
+```
 
 ### Editor Integration (VSCode)
 
