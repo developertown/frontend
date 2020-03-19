@@ -14,6 +14,22 @@ The setupTests.ts file can be used to add global configuration before tests are 
 import '@testing-library/jest-dom/extend-expect';
 ```
 
+### eslint configuration
+
+```
+yarn add -D eslint-plugin-jest
+```
+
+```
+{
+  "extends": [
+    ...,
+    "plugin:jest/recommended",
+  ],
+  "plugins": [..., "jest"],
+}
+```
+
 ### Add Test Scripts (package.json)
 
 By default Jest (`yarn test`) will watch for file changes and run only the files that have changed based on git revisions.  Sometimes it is nice to watch all files and rerun all tests in the test suite.  Below adds a `yarn test:watch` command which does just this.
