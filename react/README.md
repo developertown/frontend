@@ -10,7 +10,7 @@ npx create-react-app `<your app name>` --typescript
 
 Create React App will bootstrap an new React App with most of the configuration required for DeveloperTown projects. However the following guides will cover extending the foundation establihed by Create React App with the standards expected for DeveloperTown projects
 
-0. [Organizing our code](/.code-organization.md)
+0. [Organizing our code](./code-organization.md)
 1. [Configuring Code Formatters](./formatting.md)
 2. [Configuring Static Code analysis with Linters](./linting.md)
 3. [Building or Extending Component Libraries](./component-libraries.md)
@@ -19,3 +19,4 @@ Create React App will bootstrap an new React App with most of the configuration 
 6. [Adding Accessibility Support](./a11y.md)
 7. [Managing Application State](./state-management.md)
 8. [Testing](./testing.md)
+8. [Code Review](./code-review.md)
