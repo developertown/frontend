@@ -2,6 +2,7 @@
 
   - https://kentcdodds.com/blog/javascript-to-know-for-react
   - https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
+  - https://egghead.io/courses/advanced-static-types-in-typescript
 
 - HTML
 
