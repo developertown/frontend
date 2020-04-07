@@ -5,7 +5,7 @@
 At DeveloperTown we prefer to start applications with [Create React App](https://create-react-app.dev/docs/getting-started/) and [Typescript](./languages.md)
 
 ```
-yarn create react-app `<your app name>` --template file:./cra-template
+yarn create react-app `<your app name>` --template @developertown
 ```
 
 or if you want to configure everything yourself

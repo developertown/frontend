@@ -22,24 +22,35 @@ yarn add -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser es
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "react-hooks"],
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-console": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }
 }
 ```
-make sure that the Prettier configs are **last** in the extends array so it gets the chance to override other configs, so combined from formatting section: 
+
+make sure that the Prettier configs are **last** in the extends array so it gets the chance to override other configs, so combined from formatting section:
 
 ```json
 {
   "extends": [
-  "react-app",
-  "plugin:@typescript-eslint/recommended", 
-  "plugin:prettier/recommended",
-  "prettier/@typescript-eslint"
-   ],
+    "react-app",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "react-hooks"],
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-console": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }
