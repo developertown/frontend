@@ -1,5 +1,9 @@
 # @developertown/cra-template
 
+[![Version](https://img.shields.io/npm/v/@developertown/cra-template.svg)](https://npmjs.org/package/@developertown/cra-template)
+[![Downloads/week](https://img.shields.io/npm/dw/@developertown/cra-template.svg)](https://npmjs.org/package/@developertown/cra-template)
+![License](https://img.shields.io/npm/l/@developertown/cra-template)
+
 This is the official DeveloperTown TypeScript template for [Create React App](https://github.com/facebook/create-react-app).
 
 To use this template, add `--template @developertown` when creating a new app.
