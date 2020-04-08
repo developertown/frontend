@@ -15,12 +15,12 @@ At DeveloperTown React applications can be deployed to production in a number of
 The following docker file assumes:
 
 1. the production build of the React application (`yarn build`) has already occurred and the resulting static asset files are written to a directory called `build`
-2. the `nginx.conf` and `default-vhost.prod.conf` are defined in a directory called `nginx`.  Examples of these configuration files can be found below
+2. the `nginx.conf` and `default-vhost.prod.conf` are defined in a directory called `nginx`. Examples of these configuration files can be found below
 3. an environment variable for `PORT` and `API_HOST` is provided at runtime of the docker image.
-   * PORT: the port for nginx to listen on (likely 80)
-   * API_HOST: the host and port of the API Service to proxy requests to 
+   - PORT: the port for nginx to listen on (likely 80)
+   - API_HOST: the host and port of the API Service to proxy requests to
 
-```
+```docker
 FROM nginx:1.16-alpine AS release
 RUN apk update && apk add -f dnsmasq
 COPY build /usr/share/nginx/html
@@ -33,7 +33,7 @@ CMD envsubst '\$PORT,\$API_HOST' < /etc/nginx/conf.d/default.template > /etc/ngi
 
 PROJECT_HOME/nginx/default-vhost.prod.conf
 
-```
+```nginx
 server {
     listen       ${PORT};
     server_name  _;
@@ -78,7 +78,7 @@ server {
 
 PROJECT_HOME/nginx/nginx.conf
 
-```
+```nginx
 user  nginx;
 worker_processes  1;
 
