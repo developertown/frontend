@@ -2,6 +2,8 @@
 
 Often DeveloperTown clients want to provide a standard look and feel across several applications. Leveraging an open source component library like material-ui is a cost effective way to build consistent user experiences.
 
+## Why build for Component Libraries
+
 ## Storybook
 
 Storybook is a great tool for building a new or extending an existing component library. DeveloperTown projects should consider leveraging storybook in scenarios where
@@ -51,7 +53,6 @@ module.exports = {
     "@storybook/addon-options",
   ],
 };
-
 ```
 
 ### Add npm scripts
@@ -100,7 +101,7 @@ export default defaultTheme;
 
 ### Usage
 
-```ts
+```tsx
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
 
