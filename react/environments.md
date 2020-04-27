@@ -145,3 +145,7 @@ docker run -it -p 8080:80 -e REACT_APP_MY_ENVIRONMENT_DEPENDENT_VALUE='value for
 ```
 
 The environment variables provided to docker run will be made available to the application via the env.js file. Changing the environment variables is as simple as restarting the container with a different configuration which is very similar to environment variables work in other parts of the system.
+
+## Sensitive Data
+
+The content above discusses a few approaches for enabling configuration in frontend applications. It should be noted that with any of the strategies above the configuration values are stored in plaintext either as part of the application bundle or in a separate script file. In all cases care should be given to ensure that values that are intended to be remain truly secret are not accidently leaked. Whitelisting environment variables to only those with the prefix `REACT_APP` is an attempt to reduce the likelihood of leaking secrets.
