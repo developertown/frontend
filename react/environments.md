@@ -56,7 +56,7 @@ Downsides
 
 ### Runtime Variables with Docker
 
-We can create the illusion of true environment variable support within web applications through the use of global variables defined on `window` by loading a javascript file during page load.
+We can create the illusion of true environment variable support within web applications through the use of global variables defined on `window` by loading a javascript file during page load. More information on this approach can be found [here](https://www.freecodecamp.org/news/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70/)
 
 #### index.html
 
@@ -145,6 +145,19 @@ docker run -it -p 8080:80 -e REACT_APP_MY_ENVIRONMENT_DEPENDENT_VALUE='value for
 ```
 
 The environment variables provided to docker run will be made available to the application via the env.js file. Changing the environment variables is as simple as restarting the container with a different configuration which is very similar to environment variables work in other parts of the system.
+
+#### Using env.sh for local development
+
+Create React App comes configured with a `yarn start` command which uses webpack dev-server to enable hot reloading of the application in development mode.
+
+```
+yarn add -D dotenv-cli
+```
+
+```
+"prestart": "chmod +x ./env.sh && dotenv -e .env.development.local -e .env.development -e .env.local -e .env ./env.sh ./public/env.js",
+"start": "react-scripts start",
+```
 
 ## Sensitive Data
 
