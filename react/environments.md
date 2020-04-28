@@ -52,7 +52,7 @@ Create a single build for all environment we are deploying the application to bu
 
 Downsides
 
-- Does not work in all deployment strategies
+- Does not work in all deployment strategies (for example static hosting with AWS S3)
 
 ### Runtime Variables with Docker
 
@@ -67,7 +67,7 @@ The index.html file or whereever the application's entry point exists needs to b
 <html lang="en">
   <head>
     ...
-    <script src="%PUBLIC_URL%/env.js"></script>
+    <script src="%PUBLIC_URL%/env.js?v=%REACT_APP_VERSION%"></script>
   </head>
   <body>
     ...
@@ -110,19 +110,18 @@ To create env.js when the server first starts we need a script. The following sc
 
 ```sh
 PUBLIC_URL="$1"
-rm -rf $PUBLIC_URL
-touch $PUBLIC_URL
 REACT_APP="$(env | grep REACT_APP)"
-echo "window.env = {" >> $PUBLIC_URL
+echo "window.env = {" > $PUBLIC_URL
 while read -r line || [[ -n "$line" ]];
 do
   if printf '%s\n' "$line" | grep -q -e '='; then
     varname=$(printf '%s\n' "$line" | sed -e 's/=.*//')
     varvalue=$(printf '%s\n' "$line" | sed -e 's/^[^=]*=//')
+
+    value=$(printf '%s\n' "${!varname}")
+    [[ -z $value ]] && value=${varvalue}
+    echo "  $varname: \"$value\"," >> $PUBLIC_URL
   fi
-  value=$(printf '%s\n' "${!varname}")
-  [[ -z $value ]] && value=${varvalue}
-  echo "  $varname: \"$value\"," >> $PUBLIC_URL
 done <<<"$REACT_APP"
 echo "}" >> $PUBLIC_URL
 ```
@@ -146,6 +145,10 @@ docker run -it -p 8080:80 -e REACT_APP_MY_ENVIRONMENT_DEPENDENT_VALUE='value for
 
 The environment variables provided to docker run will be made available to the application via the env.js file. Changing the environment variables is as simple as restarting the container with a different configuration which is very similar to environment variables work in other parts of the system.
 
+#### Browser Cache
+
+Note the script tag which loads the `env.js` includes a `REACT_APP_VERSION` environment variable which is expected to be defined at **build** time by the build server. The version is included in the script tag to help bust the browser cache. It should be noted that if code with `REACT_APP_VERSION=1.0.0` is deployed to an environment with **runtime** environment variables A then redeployed to the same environment with new **runtime** environment variables it is possible some users may receive a cached version of the environment variables still. Steps should be taken to invalidate the cache if redeploying with new **runtime** environment variables
+
 #### Using env.sh for local development
 
 Create React App comes configured with a `yarn start` command which uses webpack dev-server to enable hot reloading of the application in development mode.
@@ -158,6 +161,18 @@ yarn add -D dotenv-cli
 "prestart": "chmod +x ./env.sh && dotenv -e .env.development.local -e .env.development -e .env.local -e .env ./env.sh ./public/env.js",
 "start": "react-scripts start",
 ```
+
+### Deploytime Variables with env.js
+
+One of the downsides of the Runtime Variables with Docker solution above is that it has some specific requirement around the hosting environment. This strategy works really well if we are running frontend application code in Docker (and would work in other scenarios where we can inject a script at server startup) but often we will host the frontend application as a static website on AWS S3 or similar. In cases where we do not own the server or container that is hosting the static HTML/CSS/JS bundle we may not have an opportunity to set environment variables let alone execute the `env.sh` script described above.
+
+#### However...
+
+At the core of the Runtime Variables with Docker solution is the fact that we generate a `env.js` file which is add to a previously built static HTML/CSS/JS bundle. This means we can configure our CI/CD server in such a way to build the static HTML/CSS/JS bundle **once** for all environment. When it is time to deploy to a particular environment the deploy server can execute the `env.sh` file with the correct configuration for the target environment. In this scenario if environment variables changed we would need to re-run the deploy stage for a particular environment but we do **not** need to rebuild a static HTML/CSS/JS bundle.
+
+#### Browser Cache
+
+Note the script tag which loads the `env.js` includes a `REACT_APP_VERSION` environment variable which is expected to be defined at **build** time by the build server. The version is included in the script tag to help bust the browser cache. It should be noted that if code with `REACT_APP_VERSION=1.0.0` is deployed to an environment with **deploy** time environment variables A then redeployed to the same environment with new **deploy** time environment variables it is possible some users may receive a cached version of the environment variables still. Steps should be taken to invalidate the cache if redeploying with new **deploy** time environment variables
 
 ## Sensitive Data
 
