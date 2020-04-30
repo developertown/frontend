@@ -17,14 +17,16 @@ const Loading: React.FC = () => {
 
 const Root: React.FC = () => {
   return (
-    <React.Suspense fallback={<Loading />}>
-      <I18nextProvider i18n={i18n}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App></App>
-        </ThemeProvider>
-      </I18nextProvider>
-    </React.Suspense>
+    <React.StrictMode>
+      <React.Suspense fallback={<Loading />}>
+        <I18nextProvider i18n={i18n}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App></App>
+          </ThemeProvider>
+        </I18nextProvider>
+      </React.Suspense>
+    </React.StrictMode>
   );
 };
 
