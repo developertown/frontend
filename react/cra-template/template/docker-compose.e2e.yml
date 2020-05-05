@@ -1,0 +1,29 @@
+version: "3"
+services:
+  app:
+    image: ${IMAGE_REPOSITORY}:${IMAGE_VERSION}
+    environment:
+      PORT: 80
+      # TODO: change this
+      API_HOST: http://localhost:5000
+    networks:
+      - internet
+      - backoffice
+
+  e2e:
+    image: cypress/included:3.2.0
+    working_dir: /e2e
+    entrypoint: cypress run --project /e2e --browser electron
+    depends_on:
+      - app
+    environment:
+      - CYPRESS_baseUrl=http://app
+    networks:
+      - internet
+    volumes:
+      - ./cypress:/e2e/cypress
+      - ./cypress.json:/e2e/cypress.json
+
+networks:
+  internet:
+  backoffice:

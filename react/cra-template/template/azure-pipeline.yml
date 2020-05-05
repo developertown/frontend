@@ -1,0 +1,142 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        pool:
+          vmImage: "ubuntu-16.04"
+        variables:
+          PackageDirectory: "$(System.DefaultWorkingDirectory)"
+        steps:
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: "10.x"
+          - task: Bash@3
+            displayName: "Install Yarn"
+            inputs:
+              targetType: "inline"
+              script: "npm i -g yarn"
+          - task: Bash@3
+            displayName: "Install Dependencies"
+            inputs:
+              workingDirectory: $(PackageDirectory)
+              targetType: "inline"
+              script: "yarn install"
+          - task: Npm@1
+            displayName: "Lint"
+            inputs:
+              command: "custom"
+              workingDir: "$(PackageDirectory)"
+              customCommand: "run-script lint"
+          - task: Npm@1
+            displayName: "Test Coverage"
+            inputs:
+              command: "custom"
+              workingDir: "$(PackageDirectory)"
+              customCommand: "run-script test:coverage"
+          - task: Npm@1
+            displayName: "Build"
+            inputs:
+              command: "custom"
+              workingDir: "$(PackageDirectory)"
+              customCommand: "run-script build"
+            env:
+              REACT_APP_VERSION: $(Build.BuildId)
+          - task: Npm@1
+            displayName: "Analyze Application Bundle Size"
+            inputs:
+              command: "custom"
+              workingDir: "$(PackageDirectory)"
+              customCommand: "run-script analyze --json $(PackageDirectory)/bundle.json"
+          - task: Docker@2
+            displayName: "Docker Build"
+            inputs:
+              repository: $(Build.Repository.Name)
+              command: "build"
+              Dockerfile: "$(PackageDirectory)/Dockerfile"
+              tags: |
+                $(Build.BuildId)
+          - task: DockerCompose@0
+            displayName: "End to End Tests"
+            inputs:
+              action: "Run services"
+              containerregistrytype: "Container Registry"
+              projectName: $(Build.Repository.Name)
+              dockerComposeFile: "$(PackageDirectory)/docker-compose.e2e.yml"
+              dockerComposeFileArgs: |
+                IMAGE_REPOSITORY=$(Build.Repository.Name)
+                IMAGE_VERSION=$(Build.BuildId)
+              arguments: --exit-code-from e2e e2e
+              abortOnContainerExit: true
+              detached: false
+          - task: DockerCompose@0
+            displayName: "Cleanup End to End Tests"
+            condition: always()
+            inputs:
+              action: Run a Docker Compose command
+              containerregistrytype: "Container Registry"
+              projectName: $(Build.Repository.Name)
+              dockerComposeFile: "$(PackageDirectory)/docker-compose.e2e.yml"
+              dockerComposeFileArgs: |
+                IMAGE_REPOSITORY=$(Build.Repository.Name)
+                IMAGE_VERSION=$(Build.BuildId)
+              dockerComposeCommand: down
+          # TODO: Docker PUSH
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish Build Artifacts"
+            inputs:
+              targetPath: "$(PackageDirectory)/build"
+              artifactName: "dist"
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish Test Suite"
+            inputs:
+              targetPath: "$(PackageDirectory)/cypress"
+              artifactName: "cypress"
+          - task: PublishTestResults@2
+            displayName: "Publish Test Results"
+            inputs:
+              testResultsFormat: "JUnit"
+              testResultsFiles: "$(PackageDirectory)/junit.xml"
+              testRunTitle: "publish test coverage"
+          - task: PublishCodeCoverageResults@1
+            displayName: "Publish Test Coverage"
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: "$(PackageDirectory)/coverage/cobertura-coverage.xml"
+  - stage: Test
+    condition: and(succeeded(),eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: Deploy
+        pool:
+          vmImage: "ubuntu-16.04"
+        environment: "Test"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo deploy to test
+            on:
+              failure:
+                steps:
+                  - script: echo rollback.
+  - stage: Prod
+    condition: and(succeeded(),eq(variables['build.sourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: Deploy
+        pool:
+          vmImage: "ubuntu-16.04"
+        environment: "Prod"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo deploy to prod
+            on:
+              failure:
+                steps:
+                  - script: echo rollback.
