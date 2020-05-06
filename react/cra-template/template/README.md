@@ -34,9 +34,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 |                                         | Description                                                                                                                                                                                |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | .storybook                              | [storybook](https://storybook.js.org) setup files                                                                                                                                          |
-| cypress                                 | files supporting end to end testing with [cypress](https://docs.cypress.io/).                                                                                                              |
+| cypress                                 | files supporting end to end testing with [cypress](https://docs.cypress.io/)                                                                                                               |
 | public                                  | contains static assets to be deployed alongside the react application.                                                                                                                     |
-| public/locales                          | The locale directory contains folders for each locale that the application will support. Currently only english (en) is supported                                                          |
+| public/locales                          | contains folders for each locale that the application will support. Currently only english (en) is supported                                                                               |
 | src                                     | main source directory for the application                                                                                                                                                  |
 | src/components                          | the source files for reusable components developed for this application. Storybook stories should be created for each component in this directory                                          |
 | src/components/`__stories__`            | storybook stories used in developing components in this application (see components directory)                                                                                             |
@@ -54,7 +54,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Dependencies
 
-See package.json for the complete list below are is a list of primary libraries used to support this application
+Below is a list of the primary libraries used to support this application. See package.json for the complete list.
 
 | Dependency                                                                             | Description                                                 |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -81,11 +81,11 @@ See package.json for the complete list below are is a list of primary libraries 
 
 #### Local Development
 
-|                                 | Description                                                                                                                                     |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `yarn start`                    | Runs application in development mode with hot reload support<br/>Open [http://localhost:3000](http://localhost:3000) to view it in the browser. |
-| `yarn storybook`                | This project leverages storybook for component development and styling                                                                          |
-| `yarn lint`<br/>`yarn lint:fix` | Runs ESLint to ensure proper styling and formatting as well as static code analysis for typescript/javascript files                             |
+|                                 | Description                                                                                                                                    |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `yarn start`                    | Runs application in development mode with hot reload support<br/>Open [http://localhost:3000](http://localhost:3000) to view it in the browser |
+| `yarn storybook`                | This project leverages storybook for component development and styling                                                                         |
+| `yarn lint`<br/>`yarn lint:fix` | Runs ESLint to ensure proper styling and formatting as well as static code analysis for typescript/javascript files                            |
 
 #### Testing
 
@@ -93,14 +93,14 @@ This application leverages a number of tools for test coverage
 
 1. **jest** is used for unit test coverage
 2. **jest-axe** is a jest addon to allow unit tests to validate accessibility of components
-3. **cypress** is the test harness for executing end to end tests against the application.
+3. **cypress** is the test harness for executing end to end tests against the application
 
-|                      | Description                                                                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `yarn test`          | Executes the unit test suite using jest in watch mode. This differs from `yarn test:watch` in that it will execute tests based on git revisions. |
-| `yarn test:watch`    | Executes the unit test suite using jest in watch mode                                                                                            |
-| `yarn test:coverage` | Leverages jest to perform unit and component level testing for the application. Performs code coverage analysis                                  |
-| `yarn test:e2e`      | Leverages cypress to perform end to end testing of the application                                                                               |
+|                      | Description                                                                                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `yarn test`          | Executes the unit test suite using jest in watch mode. This differs from `yarn test:watch` in that it will execute tests based on git revisions |
+| `yarn test:watch`    | Executes the unit test suite using jest in watch mode                                                                                           |
+| `yarn test:coverage` | Leverages jest to perform unit and component level testing for the application. Performs code coverage analysis                                 |
+| `yarn test:e2e`      | Leverages cypress to perform end to end testing of the application                                                                              |
 
 #### Building
 
