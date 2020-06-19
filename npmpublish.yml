@@ -5,7 +5,7 @@ name: NPM Publishing
 
 on:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   publish-npm:
@@ -15,7 +15,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-          registry-url: https://registry.npmjs.org/
+          registry-url: 'https://registry.npmjs.org'
+      - run: cd react/cra-template
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISHING_TOKEN}}
