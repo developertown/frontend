@@ -1,0 +1,42 @@
+parameters:
+  condition: "always()"
+  agent_vm_image: "ubuntu-16.04"
+  pipeline_build_artifact_name: "dist"
+  environment: "Test"
+  azure_subscription: ""
+  azure_storage_destination: "AzureBlob"
+  azure_storage_account: ""
+  azure_storage_container: "$web"
+  azure_storage_account_key: ""
+
+stages:
+  - stage: Deploy_${{ parameters.environment }}
+    displayName: Deploy
+    condition: ${{ parameters.condition }}
+    jobs:
+      - deployment: Deploy
+        pool:
+          vmImage: ${{ parameters.agent_vm_image }}
+        displayName: "Deploy ${{ parameters.environment }}"
+        environment: "${{ parameters.environment }}"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  displayName: "Download Build Artifacts"
+                  artifact: "${{ parameters.pipeline_build_artifact_name }}"
+                - task: Bash@3
+                  displayName: "List Build Artifact Dir"
+                  inputs:
+                    targetType: "inline"
+                    workingDirectory: "$(Pipeline.Workspace)"
+                    script: "ls -la $(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}"
+                - task: AzureCLI@2
+                  displayName: "Azure CLI: Copy to Blob"
+                  inputs:
+                    azureSubscription: "${{ parameters.azure_subscription }}"
+                    scriptType: "bash"
+                    scriptLocation: "inlineScript"
+                    workingDirectory: "$(Pipeline.Workspace)"
+                    inlineScript: 'az storage blob upload-batch -d ''${{ parameters.azure_storage_container }}'' --account-name "${{ parameters.azure_storage_account }}" -s "${{ parameters.pipeline_build_artifact_name }}" --account-key "${{ parameters.azure_storage_account_key }} "'

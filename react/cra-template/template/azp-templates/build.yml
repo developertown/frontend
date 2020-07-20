@@ -1,0 +1,90 @@
+parameters:
+  condition: "always()"
+  agent_vm_image: "ubuntu-16.04"
+  node_version: "10.x"
+  build_tag: "$(Build.BuildId)"
+  build_repository: "$(Build.Repository.Name)"
+  package_directory: "$(System.DefaultWorkingDirectory)"
+
+stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        steps:
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: ${{ parameters.node_version }}
+          - task: Bash@3
+            displayName: "Install Yarn"
+            inputs:
+              targetType: "inline"
+              script: "npm i -g yarn"
+          - task: Bash@3
+            displayName: "Install Dependencies"
+            inputs:
+              workingDirectory: ${{ parameters.package_directory }}
+              targetType: "inline"
+              script: "yarn install"
+          - task: Npm@1
+            displayName: "Lint"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script lint"
+          - task: Npm@1
+            displayName: "Test Coverage"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script test:coverage"
+          - task: Npm@1
+            displayName: "Build"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script build"
+            env:
+              REACT_APP_VERSION: "${{ parameters.build_tag }}"
+          - task: Npm@1
+            displayName: "Analyze Application Bundle Size"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script analyze --json ${{ parameters.package_directory }}/bundle.json"
+          - task: Docker@2
+            displayName: "Docker Build"
+            inputs:
+              repository: "${{ parameters.build_repository }}"
+              command: "build"
+              Dockerfile: "${{ parameters.package_directory }}/Dockerfile"
+              tags: |
+                ${{ parameters.build_tag }}
+          - task: DockerCompose@0
+            displayName: "End to End Tests"
+            inputs:
+              action: "Run services"
+              containerregistrytype: "Container Registry"
+              projectName: "${{ parameters.build_repository }}"
+              dockerComposeFile: "${{ parameters.package_directory }}/docker-compose.e2e.yml"
+              dockerComposeFileArgs: |
+                IMAGE_REPOSITORY=${{ parameters.build_repository }}
+                IMAGE_VERSION=${{ parameters.build_tag }}
+              arguments: --exit-code-from e2e e2e
+              abortOnContainerExit: true
+              detached: false
+          - task: DockerCompose@0
+            displayName: "Cleanup End to End Tests"
+            condition: always()
+            inputs:
+              action: Run a Docker Compose command
+              containerregistrytype: "Container Registry"
+              projectName: "${{ parameters.build_repository }}"
+              dockerComposeFile: "${{ parameters.package_directory }}/docker-compose.e2e.yml"
+              dockerComposeFileArgs: |
+                IMAGE_REPOSITORY=${{ parameters.build_repository }}
+                IMAGE_VERSION=${{ parameters.build_tag }}
+              dockerComposeCommand: down
+          - template: publish.yml
+            parameters:
+              package_directory: "${{ parameters.package_directory }}"

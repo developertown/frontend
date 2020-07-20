@@ -1,0 +1,23 @@
+parameters:
+  pipeline_build_artifact_name: "dist"
+  pipeline_cypress_artifact_name: "cypress"
+  package_directory: "$(System.DefaultWorkingDirectory)"
+
+steps:
+  - publish: "${{ parameters.package_directory }}/build"
+    displayName: "Publish Build Artifacts"
+    artifact: "${{ parameters.pipeline_build_artifact_name }}"
+  - publish: "${{ parameters.package_directory }}/cypress"
+    displayName: "Publish Test Suite"
+    artifact: "${{ parameters.pipeline_cypress_artifact_name }}"
+  - task: PublishTestResults@2
+    displayName: "Publish Test Results"
+    inputs:
+      testResultsFormat: "JUnit"
+      testResultsFiles: "${{ parameters.package_directory }}/junit.xml"
+      testRunTitle: "publish test coverage"
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish Test Coverage"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: "${{ parameters.package_directory }}/coverage/cobertura-coverage.xml"
