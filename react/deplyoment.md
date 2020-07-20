@@ -115,3 +115,5 @@ http {
 ```
 
 ## S3 and CloudFront
+
+## Azure Blob Storage

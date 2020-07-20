@@ -38,6 +38,7 @@
   - https://reactjs.org/docs/hooks-custom.html
   - https://overreacted.io/making-setinterval-declarative-with-react-hooks/
   - https://overreacted.io/why-isnt-x-a-hook/
+  - https://kentcdodds.com/blog/the-state-reducer-pattern-with-react-hooks
 
 - React State Management (useState)
 
@@ -63,6 +64,19 @@
   - https://redux.js.org/basics/data-flow
   - https://redux.js.org/introduction/learning-resources
 
+- React Testing
+
+  - https://kentcdodds.com/blog/common-mistakes-with-react-testing-library
+
 - React Performance
+
   - https://kentcdodds.com/blog/usememo-and-usecallback
   - https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster
+
+- Accessibility
+
+  - https://youtu.be/MeEADrueBIA?t=7076
+
+- Browser Features
+  - https://caniuse.com/
+  - https://whatwebcando.today/
