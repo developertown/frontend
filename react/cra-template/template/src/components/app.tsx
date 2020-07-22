@@ -36,12 +36,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+type CustomWindow = Window & {
+  env?: any;
+};
+
 const App: React.FC = () => {
+  const runtime: CustomWindow = window;
   const classes = useStyles();
   return (
     <div className={classes.app}>
       <header className={classes.header}>
         <img src={logo} className={classes.logo} alt="logo" />
+        {runtime.env && <p>{JSON.stringify(runtime.env)}</p>}
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>

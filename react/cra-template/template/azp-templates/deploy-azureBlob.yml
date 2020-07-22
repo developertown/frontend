@@ -32,6 +32,11 @@ stages:
                     targetType: "inline"
                     workingDirectory: "$(Pipeline.Workspace)"
                     script: "ls -la $(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}"
+                - task: Bash@3
+                  displayName: "Configure Runtime Variables"
+                  inputs:
+                    targetType: "inline"
+                    script: "chmod +x $(Pipeline.Workspace)/scripts/env.sh && $(Pipeline.Workspace)/scripts/env.sh $(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}/env.js"
                 - task: AzureCLI@2
                   displayName: "Azure CLI: Copy to Blob"
                   inputs:
