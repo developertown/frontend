@@ -23,6 +23,7 @@
   - https://reactjs.org/docs/thinking-in-react.html
   - https://reactpatterns.com
   - https://overreacted.io/writing-resilient-components/
+  - https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
 
 - React (with Hooks)
 
