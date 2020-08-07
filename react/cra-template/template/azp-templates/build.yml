@@ -20,12 +20,27 @@ stages:
             inputs:
               targetType: "inline"
               script: "npm i -g yarn"
+          - task: UseRubyVersion@0
+            inputs:
+              versionSpec: '>= 2.4'
+              addToPath: true
+          - task: Bash@3
+            displayName: 'Install License Checker'
+            inputs:
+              targetType: 'inline'
+              script: 'gem install license_finder'
           - task: Bash@3
             displayName: "Install Dependencies"
             inputs:
               workingDirectory: ${{ parameters.package_directory }}
               targetType: "inline"
               script: "yarn install"
+          - task: Bash@3
+            displayName: 'Check Licenses'
+            inputs:
+              workingDirectory: ${{ parameters.package_directory }}
+              targetType: 'inline'
+              script: 'license_finder'
           - task: Npm@1
             displayName: "Lint"
             inputs:
