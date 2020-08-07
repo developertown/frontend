@@ -27,6 +27,7 @@
       "@typescript-eslint/parser": "^2.24.0",
       "classnames": "^2.2.6",
       "cypress": "^4.2.0",
+      "dotenv-cli": "^3.2.0",
       "eslint": "^6.8.0",
       "eslint-config-prettier": "^6.10.0",
       "eslint-config-react-app": "^5.2.0",
@@ -63,6 +64,7 @@
       "typescript-fsa-reducers": "^1.2.1"
     },
     "scripts": {
+      "prestart": "chmod +x ./env.sh && dotenv -e .env.development.local -e .env.development -e .env.local -e .env ./env.sh ./public/env.js",
       "clean": "rm -rf ./build",
       "analyze": "source-map-explorer 'build/static/js/*.js'",
       "storybook": "start-storybook -s ./public",
