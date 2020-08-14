@@ -1,5 +1,4 @@
-import { addDecorator, addParameters } from "@storybook/react";
-import { setOptions } from "@storybook/addon-options";
+import { addons } from "@storybook/addons";
 import { withA11y } from "@storybook/addon-a11y";
 import { withKnobs } from "@storybook/addon-knobs";
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
@@ -9,7 +8,7 @@ import i18n from "../src/i18n";
 import theme from "../src/styles/theme";
 import { I18nProvider, withCssBaseline } from "./decorators";
 
-setOptions({
+addons.setConfig({
   sortStoriesByKind: false,
   showStoriesPanel: true,
   showAddonPanel: true,
@@ -20,12 +19,10 @@ setOptions({
   sidebarAnimations: false,
 });
 
-addParameters({
+export const parameters = {
   viewport: {
     viewports: INITIAL_VIEWPORTS,
   },
-});
-addParameters({
   i18n: {
     provider: I18nProvider,
     providerProps: {
@@ -34,9 +31,12 @@ addParameters({
     supportedLocales: ["en"],
     providerLocaleKey: "locale",
   },
-});
-addDecorator(muiTheme([theme]));
-addDecorator(withCssBaseline);
-addDecorator(withKnobs);
-addDecorator(withA11y);
-addDecorator(withI18n);
+};
+
+export const decorators = [
+  muiTheme([theme]),
+  withCssBaseline,
+  withKnobs,
+  withA11y,
+  withI18n
+];
