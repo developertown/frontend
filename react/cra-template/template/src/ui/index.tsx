@@ -5,19 +5,24 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Example from "../components/app";
 import { routes } from "./routes";
 
-const UnhandledError: React.FC<FallbackProps> = ({ error, componentStack }) => {
+const UnhandledError: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
       <pre>{error?.message}</pre>
-      <pre>{componentStack}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
     </div>
   );
 };
 
+const errorHandler = (error: Error, info: { componentStack: string }) => {
+  // Do something with the error
+  // E.g. log to an error logging client here
+};
+
 const App: React.FC = () => {
   return (
-    <ErrorBoundary FallbackComponent={UnhandledError}>
+    <ErrorBoundary FallbackComponent={UnhandledError} onError={errorHandler}>
       <Router>
         <Switch>
           <Route path={routes.path} component={Example} />
