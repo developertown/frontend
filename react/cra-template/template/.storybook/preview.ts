@@ -33,10 +33,4 @@ export const parameters = {
   },
 };
 
-export const decorators = [
-  muiTheme([theme]),
-  withCssBaseline,
-  withKnobs,
-  withA11y,
-  withI18n
-];
+export const decorators = [muiTheme([theme]), withCssBaseline, withKnobs, withA11y, withI18n];

@@ -2,8 +2,8 @@ pool:
   vmImage: "ubuntu-16.04"
 
 stages:
-  - template: azp-templates/build.yml
-  # - template: azp-templates/deploy-<REPLACE-WITH-STRATEGY>.yml
+  - template: .azure-pipelines/build.yml
+  # - template: .azure-pipelines/deploy-<REPLACE-WITH-STRATEGY>.yml
   #     parameters:
   #       condition: "or(eq(variables['build.sourceBranch'], 'refs/heads/develop'), eq(variables['build.sourceBranch'], 'refs/heads/master'))"
   #       environment: 'Test'

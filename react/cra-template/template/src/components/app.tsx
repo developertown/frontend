@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type CustomWindow = Window & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   env?: any;
 };
 
