@@ -87,8 +87,8 @@
       "analyze": "source-map-explorer 'build/static/js/*.js'",
       "storybook": "start-storybook -p 6006 -s public",
       "test:e2e": "cypress open",
-      "test:watch": "npm run test -- --watchAll",
-      "test:coverage": "npm run test -- --watchAll=false --coverage --reporters=default --reporters=jest-junit --testResultsProcessor=jest-sonar-reporter",
+      "test:watch": "npm run test --watchAll",
+      "test:coverage": "npm run test --watchAll=false --coverage --reporters=default --reporters=jest-junit --testResultsProcessor=jest-sonar-reporter",
       "lint": "eslint src --ext .ts,.tsx",
       "lint:fix": "npm run lint --fix"
     },
