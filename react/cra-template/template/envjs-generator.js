@@ -1,15 +1,12 @@
-PUBLIC_URL="$1"
-REACT_APP="$(env | grep REACT_APP)"
-echo "window.env = {" > $PUBLIC_URL
-while read -r line || [[ -n "$line" ]];
-do
-  if printf '%s\n' "$line" | grep -q -e '='; then
-    varname=$(printf '%s\n' "$line" | sed -e 's/=.*//')
-    varvalue=$(printf '%s\n' "$line" | sed -e 's/^[^=]*=//')
+const fs = require("fs");
+const args = process.argv.slice(2);
 
-    value=$(printf '%s\n' "${!varname}")
-    [[ -z $value ]] && value=${varvalue}
-    echo "  $varname: \"$value\"," >> $PUBLIC_URL
-  fi
-done <<<"$REACT_APP"
-echo "}" >> $PUBLIC_URL
+const outputFile = args[0];
+const varObject = Object
+  .keys(process.env)
+  .reduce((vars, key) => ({
+    ...vars,
+    [key]: key.startsWith("REACT_APP_") ? process.env[key] : undefined
+  }), {REACT_APP_VERSION: new Date().getTime()});
+
+fs.writeFileSync(outputFile, `window.env = ${JSON.stringify(varObject, null, 2)}`);
