@@ -22,3 +22,13 @@ For more information, please refer to:
 
 - [Getting Started](https://create-react-app.dev/docs/getting-started) – How to create a new app.
 - [User Guide](https://create-react-app.dev) – How to develop apps bootstrapped with Create React App.
+
+#### Note for Windows Users
+
+The template linter rules in this template are opinionated to support cross-platform development teams.  We would suggest
+setting `core.autocrlf=false` in your git configuration, which will avoid having `git` convert line endings to `crlf`
+during local development.
+
+Additionally, `react-scripts` generates a file during installation that will automatically have Windows-style line-endings,
+and will cause the build to fail due to linter failure.  After initial install, you will need to edit `src/react-app-env.d.ts`
+and change the line endings to be Unix-style (`\n`).
