@@ -104,37 +104,35 @@ const Example: React.FC = () => {
 
 The key in enabling this strategy is to create the contents of `env.js` during the startup of the container hosting the the static content vs defining the values at **build** or **deploy** time as would be required by the functionality supported by Create React App out of the box. This works reasonably well in Docker based environments through customization of the `CMD` command.
 
-#### Building env.js at startup with env.sh
+#### Building env.js at startup with envjs-generator.js
 
 To create env.js when the server first starts we need a script. The following script will read the environment variables from the server / container, filter the full list of environment variables to only those with the prefix `REACT_APP` to avoid leaking sensitive secrets. The `REACT_APP` environment variables are then converted to a javascript object which is assigned to `window.env` and written to a file called `env.js`
 
-```sh
-PUBLIC_URL="$1"
-REACT_APP="$(env | grep REACT_APP)"
-echo "window.env = {" > $PUBLIC_URL
-while read -r line || [[ -n "$line" ]];
-do
-  if printf '%s\n' "$line" | grep -q -e '='; then
-    varname=$(printf '%s\n' "$line" | sed -e 's/=.*//')
-    varvalue=$(printf '%s\n' "$line" | sed -e 's/^[^=]*=//')
+```js
+const fs = require("fs");
+const args = process.argv.slice(2);
 
-    value=$(printf '%s\n' "${!varname}")
-    [[ -z $value ]] && value=${varvalue}
-    echo "  $varname: \"$value\"," >> $PUBLIC_URL
-  fi
-done <<<"$REACT_APP"
-echo "}" >> $PUBLIC_URL
+const outputFile = args[0];
+const varObject = Object
+  .keys(process.env)
+  .reduce((vars, key) => ({
+    ...vars,
+    [key]: key.startsWith("REACT_APP_") ? process.env[key] : undefined
+  }), {REACT_APP_VERSION: new Date().getTime()});
+
+fs.writeFileSync(outputFile, `window.env = ${JSON.stringify(varObject, null, 2)}`);
+
 ```
 
 with the introduction of this script, it is now possible to refresh the environment variables in the application simply by running the `env.sh` script. For simplicity we can configure docker to run the env.sh file as part of the docker `CMD` to ensure any environment variables passed to the docker container are available to the react app.
 
 ```dockerfile
 FROM nginx
+RUN apk update && apk add nodejs
 COPY build /usr/share/nginx/html
-COPY ./env.sh .
-RUN chmod +x env.sh
+COPY ./envjs-generator.js .
 
-CMD bash -c "./env.sh /usr/share/nginx/html/env.js" && nginx -g 'daemon off;'
+CMD bash -c "node ./envjs-generator.js /usr/share/nginx/html/env.js" && nginx -g 'daemon off;'
 ```
 
 now simply by running
@@ -147,7 +145,9 @@ The environment variables provided to docker run will be made available to the a
 
 #### Browser Cache
 
-Note the script tag which loads the `env.js` includes a `REACT_APP_VERSION` environment variable which is expected to be defined at **build** time by the build server. The version is included in the script tag to help bust the browser cache. It should be noted that if code with `REACT_APP_VERSION=1.0.0` is deployed to an environment with **runtime** environment variables A then redeployed to the same environment with new **runtime** environment variables it is possible some users may receive a cached version of the environment variables still. Steps should be taken to invalidate the cache if redeploying with new **runtime** environment variables
+Note the script tag which loads the `env.js` includes a `REACT_APP_VERSION` environment variable which is expected to be defined at **build** time by the build server. The version is included in the script tag to help bust the browser cache. It should be noted that if code with `REACT_APP_VERSION=1.0.0` is deployed to an environment with **runtime** environment variables A then redeployed to the same environment with new **runtime** environment variables it is possible some users may receive a cached version of the environment variables still. Steps should be taken to invalidate the cache if redeploying with new **runtime** environment variables.
+
+**NOTE**: By default, `envjs-builder.js` will inject a dynamic `REACT_APP_VERSION` environment variable into `env.js` (based on timestamp) if none is supplied by the external environment or build system. 
 
 #### Using env.sh for local development
 
