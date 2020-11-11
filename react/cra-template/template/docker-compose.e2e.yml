@@ -11,7 +11,9 @@ services:
       - backoffice
 
   e2e:
-    image: cypress/included:3.2.0
+    build:
+      context: .
+      dockerfile: e2e.Dockerfile
     working_dir: /e2e
     entrypoint: cypress run --project /e2e --browser electron
     depends_on:
@@ -21,6 +23,7 @@ services:
     networks:
       - internet
     volumes:
+      - ./tsconfig.json:/e2e/tsconfig.json
       - ./cypress:/e2e/cypress
       - ./cypress.json:/e2e/cypress.json
 
