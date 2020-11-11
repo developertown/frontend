@@ -13,7 +13,7 @@ steps:
   - task: PublishPipelineArtifact@1
     displayName: "Publish Runtime Environment Variable Script"
     inputs:
-      targetPath: "${{ parameters.package_directory }}/env.sh"
+      targetPath: "${{ parameters.package_directory }}/envjs-generator.js"
       artifactName: "scripts"
   - task: PublishTestResults@2
     displayName: "Publish Test Results"

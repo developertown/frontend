@@ -26,6 +26,9 @@ stages:
                 - download: current
                   displayName: "Download Build Artifacts"
                   artifact: "${{ parameters.pipeline_build_artifact_name }}"
+                - download: current
+                  displayName: "Download Runtime Environment Variable Script"
+                  artifact: "scripts"
                 - task: Bash@3
                   displayName: "List Build Artifact Dir"
                   inputs:
@@ -36,7 +39,7 @@ stages:
                   displayName: "Configure Runtime Variables"
                   inputs:
                     targetType: "inline"
-                    script: "chmod +x $(Pipeline.Workspace)/scripts/env.sh && $(Pipeline.Workspace)/scripts/env.sh $(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}/env.js"
+                    script: "node $(Pipeline.Workspace)/scripts/envjs-generator.js $(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}/env.js"
                 - task: AzureCLI@2
                   displayName: "Azure CLI: Copy to Blob"
                   inputs:
