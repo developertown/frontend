@@ -1,0 +1,40 @@
+parameters:
+  condition: "always()"
+  agent_vm_image: "ubuntu-16.04"
+  pipeline_build_artifact_name: "dist"
+  environment: "Test"
+  netlify_auth_token: ""
+  netlify_site_id: ""
+
+stages:
+  - stage: Deploy_${{ parameters.environment }}
+    displayName: Deploy
+    condition: ${{ parameters.condition }}
+    jobs:
+      - deployment: Deploy
+        pool:
+          vmImage: ${{ parameters.agent_vm_image }}
+        displayName: "Deploy ${{ parameters.environment }}"
+        environment: "${{ parameters.environment }}"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  displayName: "Download Build Artifacts"
+                  artifact: "${{ parameters.pipeline_build_artifact_name }}"
+                - download: current
+                  displayName: "Download Runtime Environment Variable Script"
+                  artifact: "scripts"
+                - task: Bash@3
+                  displayName: "Configure Runtime Variables"
+                  inputs:
+                    targetType: "inline"
+                    script: "node $(Pipeline.Workspace)/scripts/envjs-generator.js $(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}/env.js"
+                - script: |
+                    npm install -g netlify-cli
+                    netlify deploy --prod --dir '$(Pipeline.Workspace)/${{ parameters.pipeline_build_artifact_name }}'
+                  displayName: "Netlify"
+                  env:
+                    NETLIFY_SITE_ID: "${{ parameters.netlify_site_id }}"
+                    NETLIFY_AUTH_TOKEN: "${{ parameters.netlify_auth_token }}"
