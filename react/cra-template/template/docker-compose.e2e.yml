@@ -23,7 +23,7 @@ services:
     networks:
       - internet
     volumes:
-      - ./tsconfig.json:/e2e/tsconfig.json
+      - ./e2e.tsconfig.json:/e2e/tsconfig.json
       - ./cypress:/e2e/cypress
       - ./cypress.json:/e2e/cypress.json
 
