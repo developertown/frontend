@@ -9,8 +9,8 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import { theme } from "./styles";
 import i18n from "./i18n";
 import App from "./ui";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./service-worker-registration";
+import reportWebVitals from "./report-web-vitals";
 
 const Loading: React.FC = () => {
   return <div>Loading...</div>;

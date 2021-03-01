@@ -96,7 +96,7 @@
     "jest": {
       "collectCoverageFrom": [
         "src/**/*.{js,jsx,ts,tsx}",
-        "!src/{setupProxy,service-worker,serviceWorkerRegistration,reportWebVitals}.{js,jsx,ts,tsx}",
+        "!src/{setupProxy,service-worker,service-worker-registration,report-web-vitals}.{js,jsx,ts,tsx}",
         "!src/**/*.story.{js,jsx,ts,tsx}"
       ],
       "coverageReporters": ["json", "lcov", "text", "clover", "cobertura"]
