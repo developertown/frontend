@@ -1,6 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import { axe } from "jest-axe";
+import { axe, render, screen } from "../../test-utils/testing-library";
 import App from "../app";
 
 test("renders learn react link", () => {
