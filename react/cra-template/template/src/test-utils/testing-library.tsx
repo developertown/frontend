@@ -1,4 +1,5 @@
 import { render, RenderOptions as RtlRenderOptions, RenderResult as RtlRenderResult } from "@testing-library/react";
+import user from "@testing-library/user-event";
 import { createMemoryHistory, History } from "history";
 import React from "react";
 import { Router } from "react-router-dom";
@@ -31,4 +32,4 @@ const customRender = (ui: React.ReactElement, options?: Omit<RenderOptions, "que
 export * from "@testing-library/react";
 export * from "jest-axe";
 // override render method
-export { customRender as render };
+export { customRender as render, user };
