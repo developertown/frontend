@@ -22,13 +22,13 @@ stages:
               script: "npm i -g yarn"
           - task: UseRubyVersion@0
             inputs:
-              versionSpec: '>= 2.4'
+              versionSpec: ">= 2.4"
               addToPath: true
           - task: Bash@3
-            displayName: 'Install License Checker'
+            displayName: "Install License Checker"
             inputs:
-              targetType: 'inline'
-              script: 'gem install license_finder'
+              targetType: "inline"
+              script: "gem install license_finder"
           - task: Bash@3
             displayName: "Install Dependencies"
             inputs:
@@ -36,17 +36,23 @@ stages:
               targetType: "inline"
               script: "yarn install"
           - task: Bash@3
-            displayName: 'Check Licenses'
+            displayName: "Check Licenses"
             inputs:
               workingDirectory: ${{ parameters.package_directory }}
-              targetType: 'inline'
-              script: 'license_finder'
+              targetType: "inline"
+              script: "license_finder"
           - task: Npm@1
             displayName: "Lint"
             inputs:
               command: "custom"
               workingDir: "${{ parameters.package_directory }}"
               customCommand: "run-script lint"
+          - task: Npm@1
+            displayName: "Check Format"
+            inputs:
+              command: "custom"
+              workingDir: "${{ parameters.package_directory }}"
+              customCommand: "run-script format:check"
           - task: Npm@1
             displayName: "Test Coverage"
             inputs:
