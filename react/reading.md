@@ -3,6 +3,10 @@
   - https://kentcdodds.com/blog/javascript-to-know-for-react
   - https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
   - https://egghead.io/courses/advanced-static-types-in-typescript
+  - https://seanbarry.dev/posts/understanding-typescript-generics
+  - https://dmitripavlutin.com/javascript-closures-interview-questions
+  - https://startup-cto.net/10-bad-typescript-habits-to-break-this-year
+  - https://jakearchibald.com/2021/function-callback-risks/
 
 - HTML
 
@@ -11,6 +15,7 @@
   - https://developer.mozilla.org/en-US/docs/Learn/CSS
   - https://sass-lang.com/guide
   - https://cssinjs.org/
+  - https://www.joshwcomeau.com/css/stacking-contexts/
 
 - React
 
@@ -24,6 +29,8 @@
   - https://reactpatterns.com
   - https://overreacted.io/writing-resilient-components/
   - https://blog.isquaredsoftware.com/2020/05/blogged-answers-a-mostly-complete-guide-to-react-rendering-behavior
+  - https://kentcdodds.com/blog/how-to-write-a-react-component-in-typescript/
+  - https://reactsecurity.io/
 
 - React (with Hooks)
 
@@ -40,6 +47,9 @@
   - https://overreacted.io/making-setinterval-declarative-with-react-hooks/
   - https://overreacted.io/why-isnt-x-a-hook/
   - https://kentcdodds.com/blog/the-state-reducer-pattern-with-react-hooks
+
+- React State Management
+  - https://daveceddia.com/react-state-management
 
 - React State Management (useState)
 
@@ -73,10 +83,12 @@
 
   - https://kentcdodds.com/blog/usememo-and-usecallback
   - https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster
+  - https://overreacted.io/before-you-memo
 
 - Accessibility
 
   - https://youtu.be/MeEADrueBIA?t=7076
+  - https://www.smashingmagazine.com/2021/03/complete-guide-accessible-front-end-components/
 
 - Browser Features
   - https://caniuse.com/
