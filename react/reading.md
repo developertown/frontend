@@ -9,10 +9,12 @@
   - https://jakearchibald.com/2021/function-callback-risks/
 
 - HTML
+  - https://domevents.dev/
 
 - CSS/SCSS/JSS
 
   - https://developer.mozilla.org/en-US/docs/Learn/CSS
+  - https://web.dev/learn/css
   - https://sass-lang.com/guide
   - https://cssinjs.org/
   - https://www.joshwcomeau.com/css/stacking-contexts/
