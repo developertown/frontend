@@ -1,7 +1,7 @@
 parameters:
   condition: "always()"
-  agent_vm_image: "ubuntu-16.04"
-  node_version: "10.x"
+  agent_vm_image: "ubuntu-18.04"
+  node_version: "14.x"
   build_tag: "$(Build.BuildId)"
   build_repository: "$(Build.Repository.Name)"
   package_directory: "$(System.DefaultWorkingDirectory)"

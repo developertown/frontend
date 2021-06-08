@@ -1,6 +1,6 @@
 parameters:
   condition: "always()"
-  agent_vm_image: "ubuntu-16.04"
+  agent_vm_image: "ubuntu-18.04"
   pipeline_build_artifact_name: "dist"
   environment: "Test"
   netlify_auth_token: ""
