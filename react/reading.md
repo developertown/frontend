@@ -7,6 +7,7 @@
   - https://dmitripavlutin.com/javascript-closures-interview-questions
   - https://startup-cto.net/10-bad-typescript-habits-to-break-this-year
   - https://jakearchibald.com/2021/function-callback-risks/
+  - https://jsisweird.com/
 
 - HTML
   - https://domevents.dev/
@@ -15,6 +16,8 @@
 
   - https://developer.mozilla.org/en-US/docs/Learn/CSS
   - https://web.dev/learn/css
+  - https://flukeout.github.io/
+  - https://codingfantasy.com/games/flexboxadventure
   - https://sass-lang.com/guide
   - https://cssinjs.org/
   - https://www.joshwcomeau.com/css/stacking-contexts/
